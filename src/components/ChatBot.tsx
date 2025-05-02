@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import DanielPhoneFrame from './DanielPhoneFrame';
 
 export default function ChatBot() {
   const [input, setInput] = useState('');
