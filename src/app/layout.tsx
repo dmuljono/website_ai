@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Daniel's Digital Twin",
+  title: "Daniel Muljono's",
   description: "Chat with Daniel’s pixel-style AI twin in a retro 16-bit universe.",
 };
 

@@ -14,6 +14,16 @@
   }
 }
 
+@keyframes pixel-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px #ffd700) drop-shadow(0 0 4px #ffc107);
+  }
+  50% {
+    filter: drop-shadow(0 0 5px #ffd700) drop-shadow(0 0 10px #ffc107);
+  }
+}
+
+
 body {
   background: var(--background);
   color: var(--foreground);
