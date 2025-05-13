@@ -1,17 +1,22 @@
-import TransitionWrapper from '@/components/TransitionWrapper';
+'use client';
 
 export default function About() {
   return (
-    <TransitionWrapper>
-      <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center px-4">
-        <h2 className="text-3xl font-bold mb-4">About Me</h2>
-        <p className="text-gray-300 max-w-xl mb-2">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-black/60 backdrop-blur-sm p-6">
+      <div className="max-w-xl w-full bg-[#e2dcc5] text-black border-4 border-[#b7ad9b] shadow-[4px_4px_0_rgba(0,0,0,0.4)] p-6 rounded-sm">
+        <h2 className="font-['Press_Start_2P'] text-xs text-black mb-4 tracking-tight">
+          ▶ About Daniel
+        </h2>
+        <p className="font-['Press_Start_2P'] text-[10px] leading-relaxed mb-3">
           I'm Daniel Muljono — a 25-year-old tech-driven professional working at DBS Bank through the Graduate Associate Programme.
         </p>
-        <p className="text-gray-300 max-w-xl">
-          I’m passionate about AI, investing, luxury goods, anime, gaming, and golf. This site’s chatbot is trained to reflect my personality so you can chat with “me” even when I’m offline.
+        <p className="font-['Press_Start_2P'] text-[10px] leading-relaxed mb-3">
+          I’m passionate about AI, investing, luxury goods, anime, gaming, and golf.
+        </p>
+        <p className="font-['Press_Start_2P'] text-[10px] leading-relaxed">
+          This site’s chatbot is trained to reflect my personality — so feel free to ask it anything you'd ask me IRL.
         </p>
       </div>
-    </TransitionWrapper>
+    </div>
   );
 }

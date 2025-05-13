@@ -1,13 +1,19 @@
+'use client';
+
 import ChatBot from '@/components/ChatBot';
-import TransitionWrapper from '@/components/TransitionWrapper';
 
 export default function Home() {
   return (
-    <TransitionWrapper>
-      <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center px-4">
-        <h1 className="text-3xl font-bold mb-6">Say Hello to Daniel-Bot 🤖</h1>
+    <div
+      className="min-h-screen bg-[#0c0e1c] bg-cover bg-bottom"
+      style={{ backgroundImage: "url('/bg-night-pixel.png')" }}
+    >
+      <main className="flex flex-col items-center justify-center min-h-screen bg-black/60 p-4">
+        <h1 className="text-sm font-['Press_Start_2P'] text-white mb-6 tracking-tight drop-shadow-[1px_1px_0_rgba(0,0,0,0.8)]">
+          ▶ Say Hello to Daniel-Bot
+        </h1>
         <ChatBot />
-      </div>
-    </TransitionWrapper>
+      </main>
+    </div>
   );
 }
