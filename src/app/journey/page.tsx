@@ -28,7 +28,7 @@ export default function Journey() {
       <div
         className="absolute inset-0 z-0 bg-repeat-x"
         style={{
-          backgroundImage: "url('/bg/mountains.png')",
+          backgroundImage: "url('/bg/beach.png')",
           backgroundSize: "contain",
           transform: `translateX(-${scrollX * 0.2}px)`
         }}
@@ -36,7 +36,7 @@ export default function Journey() {
       <div
         className="absolute inset-0 z-10 bg-repeat-x"
         style={{
-          backgroundImage: "url('/bg/trees.png')",
+          backgroundImage: "url('/bg/palmtrees.png')",
           backgroundSize: "contain",
           transform: `translateX(-${scrollX * 0.4}px)`
         }}
