@@ -35,6 +35,7 @@ export default function Header() {
         {navItem('/', 'Chat')}
         {navItem('/about', 'About')}
         {navItem('/resume', 'Resume')}
+        {navItem('/journey', 'Journey')}
       </nav>
     </header>
   );
