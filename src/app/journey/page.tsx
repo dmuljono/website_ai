@@ -1,4 +1,3 @@
-// /src/app/journey/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -23,16 +22,20 @@ export default function Journey() {
   }, []);
 
   return (
-    <div className="relative w-[4000px] h-screen overflow-x-scroll bg-sky-400">
-      {/* Parallax layers */}
+    <div className="relative w-[4000px] h-screen overflow-x-scroll overflow-y-hidden bg-sky-400">
+      {/* Background layer: Beach */}
       <div
-        className="absolute inset-0 z-0 bg-repeat-x"
+        className="absolute top-0 left-0 h-screen w-[4000px] z-0"
         style={{
           backgroundImage: "url('/bg/beach.png')",
-          backgroundSize: "contain",
+          backgroundRepeat: "repeat-x",
+          backgroundSize: "auto 100%",
+          backgroundPosition: "bottom left",
           transform: `translateX(-${scrollX * 0.2}px)`
         }}
       />
+
+      {/* Midground layer: Palmtrees */}
       <div
         className="absolute inset-0 z-10 bg-repeat-x"
         style={{
@@ -41,15 +44,26 @@ export default function Journey() {
           transform: `translateX(-${scrollX * 0.4}px)`
         }}
       />
-      {/* Ground */}
-      <div className="absolute bottom-0 left-0 w-full h-[100px] bg-green-700 z-30" />
+
+      {/* Ground layer: using an image (grass, road, etc.) */}
+      <div className="absolute bottom-0 left-0 w-full h-[300px] z-10">
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundImage: "url('/bg/ground_grass.png')", // Replace with your ground image
+            backgroundRepeat: "repeat-x",
+            backgroundSize: "auto 100%",
+            backgroundPosition: "bottom left"
+          }}
+        />
+      </div>
 
       {/* Mario sprite */}
       <div
         className="fixed bottom-[100px] left-[80px] z-40 transition-transform duration-100"
         style={{ transform: `translateX(${scrollX}px)` }}
       >
-        <Image src="/ui/mario.png" alt="Mario" width={48} height={48} />
+        <Image src="/ui/mario.png" alt="Mario" width={240} height={240} />
       </div>
 
       {/* Info boxes */}
