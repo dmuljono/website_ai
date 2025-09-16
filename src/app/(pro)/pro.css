@@ -1,0 +1,86 @@
+/* Route-scoped CSS — loaded only for Professional Mode */
+:root {
+  --pro-bg: #0b1020;
+  --pro-surface: #0f1429;
+  --pro-text: #e6e8ee;
+  --pro-muted: #a6adbf;
+  --pro-accent: #18c28c;
+  --pro-border: #202743;
+}
+
+.pro-body {
+  background: radial-gradient(1000px 600px at 10% -10%, #101736 0%, transparent 60%) ,
+              linear-gradient(#0a0f24, #0a0f24);
+  min-height: 100dvh;
+  color: var(--pro-text);
+}
+
+.pro-container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.pro-card {
+  background: var(--pro-surface);
+  border: 1px solid var(--pro-border);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.pro-muted { color: var(--pro-muted); }
+
+/* Pro nav */
+.pro-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+  background: color-mix(in oklab, var(--pro-surface) 86%, transparent);
+  border-bottom: 1px solid var(--pro-border);
+}
+
+/* Minimal buttons */
+.pro-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  border: 1px solid var(--pro-border);
+  background: #0c132a;
+  color: var(--pro-text);
+  padding: .5rem .8rem;
+  border-radius: 10px;
+  font-size: .9rem;
+  transition: transform .06s ease, background .18s ease, border-color .18s ease;
+}
+.pro-btn:hover { background: #0e1631; border-color: #2a3459; }
+.pro-btn:active { transform: scale(.985); }
+.pro-btn-accent {
+  border-color: color-mix(in oklab, var(--pro-accent) 70%, var(--pro-border));
+  color: white;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--pro-accent) 60%, #0e1b2e), #0f1a2d);
+}
+.pro-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .2rem .55rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  line-height: 1rem;
+  border: 1px solid var(--pro-border);
+  background: #0c132a;
+}
+
+/* Typography helpers */
+.pro-h1 { font-size: 2rem; font-weight: 650; letter-spacing: -0.01em; }
+.pro-h2 { font-size: 1.05rem; font-weight: 600; margin-bottom: .6rem; }
+.pro-list { margin-top: .35rem; padding-left: 1.2rem; }
+.pro-list li { margin: .25rem 0; color: #d9deea; }
+
+/* Print tweaks */
+@media print {
+  .pro-nav, .pro-actions { display: none !important; }
+  .pro-body { background: white !important; color: black; }
+  .pro-card { box-shadow: none; }
+}

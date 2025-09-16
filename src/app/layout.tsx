@@ -1,8 +1,7 @@
 import './globals.css';
 import { Poppins } from 'next/font/google';
 import type { Metadata } from 'next';
-import Header from '@/components/Header';
-
+import HeaderSwitch from '@/components/HeaderSwitch'; // ⬅️ use the client-side switcher
 
 const poppins = Poppins({
   weight: ['400', '500', '600'],
@@ -21,8 +20,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className="bg-black text-white font-sans antialiased">
-        <Header />
+      {/* keep your global classes + add the Poppins font class */}
+      <body className={`bg-black text-white font-sans antialiased ${poppins.className}`}>
+        {/* Conditionally renders <Header /> except on /professional_resume */}
+        <HeaderSwitch />
         {children}
       </body>
     </html>

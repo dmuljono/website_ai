@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import TeleportGate from '@/components/TeleportGate';
 
 export default function Resume() {
   const [blurred, setBlurred] = useState(false);
@@ -41,6 +42,16 @@ export default function Resume() {
 
       {/* Foreground content */}
       <div className="relative z-10 py-10 max-w-7xl mx-auto px-4">
+        <main className="p-8">
+          <TeleportGate
+            display="portal"
+            mode="route"
+            target="/professional_resume"
+            label="Enter Professional Mode"
+            imageSrc="/teleporter.png" // put the image file here
+            imageAlt="Green portal teleporter"
+          />
+    </main>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {scrollBox('paper1.png', '🧍 Personal', (
             <>
