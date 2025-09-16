@@ -52,7 +52,7 @@ export default function Resume() {
 
           {scrollBox('paper2.png', '🎓 Education + Job', (
             <>
-              <p>B.S. in Information Systems from [Your University]</p>
+              <p>B.S. in Information Systems from UCSD</p>
               <p>Associate at DBS Bank – Graduate Associate Program</p>
               <p>Work: automation tooling, API rollout, GPT integrations</p>
             </>

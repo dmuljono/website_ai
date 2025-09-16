@@ -29,12 +29,21 @@ const THEME: Theme = {
       height: 180, // draw height (omit to use natural)
     },
 
+    billboardFrame: { src: "/journey/billboard_frame.png", w: 280, h: 120 }, // optional
+
     // 🔹 Obstacles
     cactus: { src: "/journey/cactus.png", w: 28, h: 56 },
     bird:   { src: "/journey/bird.png", w: 40, h: 24 },
 
     // 🔹 Player sprite
-    player: { src: "/journey/player.png", w: 44, h: 60, frames: 1, fps: 10 },
+    // src/app/journey/engine/theme.ts
+    player: {
+      src: "/journey/player.png",
+      w: 44,   // set to your per-frame width in pixels
+      h: 56,   // set to your per-frame height in pixels
+      frames: 3,
+      fps: 1.5
+    },
   },
 };
 

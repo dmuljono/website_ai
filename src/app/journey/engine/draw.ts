@@ -1,5 +1,5 @@
-import { VIEW, WORLD, PLAYER } from "./constants";
-import type { GameState, Theme, Obstacle } from "./types";
+import { VIEW, WORLD, PLAYER, BILLBOARDS } from "./constants";
+import type { GameState, Theme, Obstacle, Billboard } from "./types";
 import { loadImage, imgReady } from "./assets";
 
 export function drawFrame(
@@ -14,15 +14,119 @@ export function drawFrame(
   drawBackground(ctx, state.camera.x, theme);
   drawGround(ctx, state.camera.x, theme);
 
+  // Billboards: draw after ground, before player/obstacles
+  for (const bb of state.billboards) {
+    drawBillboard(ctx, bb, state.camera.x, theme);
+  }
+
+  // Obstacles
   for (const ob of state.obstacles) {
     drawObstacle(ctx, ob, state.camera.x, theme);
   }
 
+  // Player
   drawPlayer(ctx, state, theme, debug);
-  drawHUD(ctx, Math.floor(state.score), 0, state.paused, state.gameOver, theme);
+
+  // HUD & overlays
+  drawHUD(ctx, state.paused, state.gameOver, theme);
 }
 
+/* -------------------------- Billboards -------------------------- */
+
+function drawBillboard(
+  ctx: CanvasRenderingContext2D,
+  bb: Billboard,
+  camX: number,
+  theme: Theme
+) {
+  const sx = Math.round(bb.x - camX);
+  if (sx + bb.w < -50 || sx > VIEW.width + 50) return;
+
+  const yTop = WORLD.groundY + BILLBOARDS.offsetY;
+  const postH = bb.h - 10;
+  const postY = yTop + 10;
+
+  // posts
+  ctx.fillStyle = "#3b2f2f";
+  ctx.fillRect(sx + 16, postY, 10, postH);
+  ctx.fillRect(sx + bb.w - 26, postY, 10, postH);
+
+  // frame (image or procedural)
+  const frame = theme.images.billboardFrame;
+  const panelY = yTop;
+  if (frame?.src) {
+    const img = loadImage(frame.src);
+    if (imgReady(img)) {
+      const dw = frame.w ?? bb.w;
+      const dh = frame.h ?? bb.h;
+      ctx.drawImage(img, sx, panelY, dw, dh);
+    } else {
+      drawPanel(ctx, sx, panelY, bb.w, bb.h);
+    }
+  } else {
+    drawPanel(ctx, sx, panelY, bb.w, bb.h);
+  }
+
+  // content
+  if (bb.imgSrc) {
+    const pic = loadImage(bb.imgSrc);
+    if (imgReady(pic)) {
+      const pad = 14;
+      const dw = bb.w - pad * 2;
+      const dh = bb.h - pad * 2;
+      ctx.drawImage(pic, sx + pad, panelY + pad, dw, dh);
+    }
+  } else if (bb.text) {
+    const pad = 12;
+    ctx.fillStyle = "#111";
+    ctx.font = "14px monospace";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+    wrapText(ctx, bb.text, sx + pad, panelY + pad + 14, bb.w - pad * 2, 18);
+  }
+}
+
+function drawPanel(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number) {
+  ctx.fillStyle = "#f3e4c8";
+  ctx.fillRect(x, y, w, h);
+  ctx.strokeStyle = "#5b4636";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(x, y, w, h);
+  // trims
+  ctx.fillStyle = "rgba(0,0,0,0.06)";
+  ctx.fillRect(x, y, w, 6);
+  ctx.fillRect(x, y + h - 6, w, 6);
+}
+
+// lightweight word wrap
+function wrapText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+  lineHeight: number
+) {
+  const words = text.split(" ");
+  let line = "";
+  for (let n = 0; n < words.length; n++) {
+    const test = line ? line + " " + words[n] : words[n];
+    const w = ctx.measureText(test).width;
+    if (w > maxWidth && n > 0) {
+      ctx.fillText(line, x, y);
+      line = words[n];
+      y += lineHeight;
+    } else {
+      line = test;
+    }
+  }
+  if (line) ctx.fillText(line, x, y);
+}
+
+/* ----------------------- Background & Ground ----------------------- */
+
 function drawBackground(ctx: CanvasRenderingContext2D, camX: number, theme: Theme) {
+  // sky fill
   ctx.fillStyle = theme.colors.sky;
   ctx.fillRect(0, 0, VIEW.width, VIEW.height);
 
@@ -51,6 +155,7 @@ function drawBackground(ctx: CanvasRenderingContext2D, camX: number, theme: Them
     }
   }
 
+  // fallback mountains
   if (layers.length === 0) {
     ctx.fillStyle = theme.colors.mountain;
     const baseY = WORLD.groundY - 80;
@@ -84,6 +189,7 @@ function drawGround(ctx: CanvasRenderingContext2D, camX: number, theme: Theme) {
       ctx.drawImage(img, 0, srcY, srcW, srcH, x, y, srcW, drawH);
     }
   } else {
+    // procedural ground
     ctx.fillStyle = theme.colors.groundTop;
     ctx.fillRect(0, WORLD.groundY, VIEW.width, VIEW.height - WORLD.groundY);
     ctx.strokeStyle = theme.colors.groundStripe;
@@ -96,6 +202,8 @@ function drawGround(ctx: CanvasRenderingContext2D, camX: number, theme: Theme) {
     ctx.setLineDash([]);
   }
 }
+
+/* ---------------------------- Obstacles ---------------------------- */
 
 function drawObstacle(
   ctx: CanvasRenderingContext2D,
@@ -136,6 +244,8 @@ function drawObstacle(
   }
 }
 
+/* ----------------------------- Player ------------------------------ */
+
 function drawPlayer(
   ctx: CanvasRenderingContext2D,
   state: GameState,
@@ -147,6 +257,7 @@ function drawPlayer(
   const sx = Math.round(p.x - state.camera.x);
   const sy = Math.round(p.y + (PLAYER.h - ph));
 
+  // shadow
   ctx.fillStyle = theme.colors.dinoShadow;
   ctx.beginPath();
   ctx.ellipse(sx + PLAYER.w / 2, WORLD.groundY + 6, 18, 6, 0, 0, Math.PI * 2);
@@ -156,18 +267,53 @@ function drawPlayer(
   if (sprite?.src) {
     const img = loadImage(sprite.src);
     if (imgReady(img)) {
-      const frames = sprite.frames ?? 1;
-      const fps = sprite.fps ?? 10;
-      const frameIndex = Math.floor((p.anim * fps) % frames);
-      const sw = (img.naturalWidth ?? PLAYER.w) / frames;
-      const sh = img.naturalHeight ?? ph;
+      // 3-frame sheet: 0=idle, 1-2=run loop
+      const speed = Math.abs(p.vx);
+      const isRunning = p.grounded && speed > 20;
+
+      const frames = sprite.frames ?? 3;
+      const fps = sprite.fps ?? 6;
+      const rows = sprite.rows ?? 1;
+      const map = sprite.map ?? {};
+      let row = 0;
+      if (!p.grounded) row = map.jump ?? row;
+      else if (p.ducking) row = map.duck ?? row;
+      else if (isRunning) row = map.run ?? row;
+      else row = map.idle ?? row;
+      row = Math.max(0, Math.min(row, rows - 1));
+
+      let frameIndex = 0;
+      if (isRunning) {
+        const runFrames = [1, 2];
+        const idx = Math.floor((p.anim * fps) % runFrames.length);
+        frameIndex = runFrames[idx];
+      }
+
+      const sw = img.naturalWidth / frames;
+      const sh = img.naturalHeight / rows;
+
       const dw = sprite.w ?? PLAYER.w;
-      const dh = sprite.h ?? ph;
-      if (sw > 0) {
-        ctx.drawImage(img, frameIndex * sw, 0, sw, sh, sx, sy, dw, dh);
+      const dh =
+        sprite.h ??
+        (p.ducking && !sprite.map?.duck && sprite.duckScale
+          ? Math.floor(PLAYER.h * sprite.duckScale)
+          : PLAYER.h);
+
+      const sxFrame = frameIndex * sw;
+      const syRow = row * sh;
+
+      const goingLeft = p.vx < -10;
+      if (goingLeft) {
+        ctx.save();
+        ctx.scale(-1, 1);
+        ctx.drawImage(img, sxFrame, syRow, sw, sh, -(sx + dw), sy, dw, dh);
+        ctx.restore();
+      } else {
+        ctx.drawImage(img, sxFrame, syRow, sw, sh, sx, sy, dw, dh);
       }
     }
   } else {
+    // procedural fallback
     ctx.fillStyle = theme.colors.dinoBody;
     ctx.fillRect(sx + 6, sy, PLAYER.w - 12, ph - 6);
     ctx.fillRect(sx + 12, sy - 16, 22, 16);
@@ -185,25 +331,43 @@ function drawPlayer(
   }
 }
 
+/* ------------------------------- HUD ------------------------------- */
+
 function drawHUD(
   ctx: CanvasRenderingContext2D,
-  score: number,
-  hi: number,
   paused: boolean,
   over: boolean,
   theme: Theme
 ) {
+  // score (top-right)
   ctx.fillStyle = theme.colors.hud;
-  ctx.font = "16px monospace";
-  const s = score.toString().padStart(5, "0");
-  const h = hi.toString().padStart(5, "0");
-  ctx.fillText(`HI ${h}   ${s}`, VIEW.width - 220, 30);
-  if (paused) ctx.fillText("PAUSED (P)", 20, 30);
+  ctx.font = "24px 'Press Start 2P', monospace";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
+
+  if (paused && !over) {
+    ctx.fillText("PAUSED (P)", 20, 30);
+  }
+
   if (over) {
-    ctx.font = "20px monospace";
-    ctx.fillText("GAME OVER — Press Enter", VIEW.width / 2 - 150, 100);
+    // dim everything safely
+    ctx.save();
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, VIEW.width, VIEW.height);
+    ctx.restore();
+
+
+    // centered restart message
+    const msg = "Press Enter to start over";
+    ctx.fillStyle = "#fff";
+    ctx.font = "20px 'Press Start 2P', monospace";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(msg, VIEW.width / 2, VIEW.height / 2);
   }
 }
+
+/* ----------------------------- Utility ---------------------------- */
 
 function triangle(
   ctx: CanvasRenderingContext2D,

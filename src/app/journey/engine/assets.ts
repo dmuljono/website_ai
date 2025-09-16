@@ -17,7 +17,9 @@ export function loadThemeImages(theme: Theme){
   loadImage(theme.images.cactus?.src);
   loadImage(theme.images.bird?.src);
   loadImage(theme.images.player?.src);
+  loadImage(theme.images.billboardFrame?.src);   // NEW
 }
+
 
 // Add/replace this helper so TS narrows the type after a check
 export function imgReady(img: HTMLImageElement | undefined): img is HTMLImageElement {
