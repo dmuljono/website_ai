@@ -33,9 +33,9 @@ export default function Header() {
       {/* Navigation */}
       <nav className="flex gap-2">
         {navItem('/', 'Chat')}
+        {navItem('/journey', 'Journey')}
         {navItem('/about', 'About')}
         {navItem('/resume', 'Resume')}
-        {navItem('/journey', 'Journey')}
       </nav>
     </header>
   );
