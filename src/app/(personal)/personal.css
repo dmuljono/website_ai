@@ -1,0 +1,31 @@
+/* Personal-only CSS */
+@import '@fontsource/press-start-2p'; /* personal pixel font */
+
+/* Theme variables scoped to personal wrapper (NOT :root) */
+.personal-scope {
+  --background: #000000;   /* personal dark */
+  --foreground: #ffffff;
+  font-family: "Press Start 2P", Arial, Helvetica, sans-serif;
+}
+
+/* Personal animations */
+@keyframes pixel-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px #ffd700) drop-shadow(0 0 4px #ffc107);
+  }
+  50% {
+    filter: drop-shadow(0 0 5px #ffd700) drop-shadow(0 0 10px #ffc107);
+  }
+}
+
+@keyframes crow-fly {
+  0% { transform: translateX(-100px); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateX(110vw); opacity: 0; }
+}
+
+/* Keep body/global rules OUT of here. Style the wrapper instead. */
+.personal-scope {
+  background: var(--background);
+  color: var(--foreground);
+}

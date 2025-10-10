@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@fontsource/press-start-2p": "^5.2.5",
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.3.0",
     "framer-motion": "^12.6.4",
     "next": "15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "three": "^0.180.0",
     "zustand": "^5.0.4"
   },
   "devDependencies": {

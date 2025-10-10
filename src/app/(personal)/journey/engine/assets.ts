@@ -17,7 +17,7 @@ export function loadThemeImages(theme: Theme){
   loadImage(theme.images.cactus?.src);
   loadImage(theme.images.bird?.src);
   loadImage(theme.images.player?.src);
-  loadImage(theme.images.billboardFrame?.src);   // NEW
+  // loadImage(theme.images.billboardFrame?.src);   // NEW
 }
 
 
