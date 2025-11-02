@@ -7,6 +7,7 @@ export function generateViewport() {
 export default function ProfessionalResumePage() {
   return (
     <main className="grid gap-6">
+      <ProjectCardSection />
       {/* Header Card */}
       <section className="pro-card" style={{ padding: 20 }}>
         <h1 className="pro-h1">Daniel Muljono</h1>
@@ -70,7 +71,6 @@ export default function ProfessionalResumePage() {
           </ul>
         </div>
       </section>
-      <ProjectCardSection />
     </main>
   );
 }
