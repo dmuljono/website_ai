@@ -18,9 +18,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Professional Resume – Daniel Muljono",
     images: ["/og/pro.png"]
-  },
-  themeColor: "#ffffff"
+  }
 };
+
+export function generateViewport() {
+  return { themeColor: "#000000" };
+}
 
 export default function ProLayout({ children }: { children: React.ReactNode }) {
   return (

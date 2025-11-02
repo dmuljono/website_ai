@@ -1,7 +1,8 @@
-export const metadata = {
-  title: "Daniel Muljono — Professional Resume",
-  description: "Experience, projects, skills, education.",
-};
+import ProjectCardSection from "./ProjectCardSection";
+
+export function generateViewport() {
+  return { themeColor: "#000000" };
+}
 
 export default function ProfessionalResumePage() {
   return (
@@ -69,6 +70,7 @@ export default function ProfessionalResumePage() {
           </ul>
         </div>
       </section>
+      <ProjectCardSection />
     </main>
   );
 }
