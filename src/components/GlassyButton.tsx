@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 'use client'
+import Link from "next/link";
 
 export default function GlassyButton() {
   return (
