@@ -113,7 +113,7 @@ export default function JourneyGame() {
         className={`
           absolute pointer-events-none overflow-hidden z-0
           left-[0px] top-[0px] w-[600px] h-[400px]
-          sm:left-[30.5%] sm:top-[0%] sm:w-[43.5%] sm:h-[47%]
+          sm:left-[25%] sm:top-[0%] sm:w-[55%] sm:h-[47%]
         `}
         style={{
           backgroundImage: `

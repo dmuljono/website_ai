@@ -40,6 +40,14 @@ input, button, textarea, select {
   }
 }
 
+@keyframes shine {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+
+
+
 /* OPTIONAL: let the browser pick light/dark form controls without forcing colors */
 :root {
   color-scheme: light dark;

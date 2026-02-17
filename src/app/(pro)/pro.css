@@ -9,8 +9,7 @@
 }
 
 .pro-body {
-  background: radial-gradient(1000px 600px at 10% -10%, #101736 0%, transparent 60%) ,
-              linear-gradient(#0a0f24, #0a0f24);
+  background: linear-gradient(135deg, #060606 0%, #0d0d0d 45%, #050505 100%);
   min-height: 100dvh;
   color: var(--pro-text);
 }
@@ -96,4 +95,38 @@
 
 /* Example: subtle pro-only type tweaks */
 .pro-scope .muted { opacity: 0.75; }
+
+/* Animate WRAPPERS instead of blobs */
+
+.blob-a-wrapper {
+  animation: blobA 20s ease-in-out infinite;
+}
+
+.blob-b-wrapper {
+  animation: blobB 30s ease-in-out infinite;
+}
+
+.blob-c-wrapper {
+  animation: blobC 10s ease-in-out infinite;
+}
+
+@keyframes blobA {
+  0%   { transform: translate(-28%, -22%) scale(1.05); }
+  50%  { transform: translate(32%, 26%)  scale(1.18); }
+  100% { transform: translate(-28%, -22%) scale(1.05); }
+}
+
+
+@keyframes blobB {
+  0%   { transform: translate(-28%, -22%) scale(1.05); }
+  50%  { transform: translate(32%, 26%)  scale(1.18); }
+  100% { transform: translate(-28%, -22%) scale(1.05); }
+}
+
+
+@keyframes blobC {
+  0%   { transform: translate(-28%, -22%) scale(1.05); }
+  50%  { transform: translate(32%, 26%)  scale(1.18); }
+  100% { transform: translate(-28%, -22%) scale(1.05); }
+}
 

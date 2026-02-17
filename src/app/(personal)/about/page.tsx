@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import GlassyButton from '@/components/GlassyButton'
+
 
 export default function About() {
   const [crows, setCrows] = useState<number[]>([]);
@@ -24,7 +26,7 @@ export default function About() {
       </div>
 
       {/* Main Content */}
-      <div className="flex items-center justify-center min-h-screen bg-black/60 p-6 relative z-30">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-black/60 p-6 relative z-30 gap-6">
         <div className="max-w-xl w-full bg-[#e2dcc5] text-black border-4 border-[#b7ad9b] shadow-[4px_4px_0_rgba(0,0,0,0.4)] p-6 rounded-sm">
           <h2 className="font-['Press_Start_2P'] text-xs text-black mb-4 tracking-tight">
             ▶ About Daniel
@@ -38,6 +40,10 @@ export default function About() {
           <p className="font-['Press_Start_2P'] text-[10px] leading-relaxed">
             This site’s chatbot reflects my personality — so feel free to ask it anything you'd ask me IRL.
           </p>
+        </div>
+
+        <div className="w-full flex justify-center">
+          <GlassyButton />
         </div>
       </div>
     </div>
