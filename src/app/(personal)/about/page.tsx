@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import GlassyButton from '@/components/GlassyButton';
+import Image from "next/image";
+
 
 export default function About() {
   const [crows, setCrows] = useState<number[]>([]);
@@ -71,14 +73,20 @@ function FlappingCrow({ speed, top }: { speed: number; top: number }) {
   }, [frames.length]);
 
   return (
-    <img
-      src={frames[frame]}
-      alt="Flapping Crow"
-      className="absolute w-[48px] h-auto"
+    <div
+      className="absolute w-[48px]"
       style={{
         top: `${top}vh`,
         animation: `crow-fly ${speed}s linear forwards`,
       }}
-    />
+    >
+      <Image
+        src={frames[frame]}
+        alt="Flapping Crow"
+        width={48}
+        height={48}
+        priority={false}
+      />
+    </div>
   );
 }
