@@ -4,6 +4,7 @@ import "./pro.css"; // keep if you have pro-only styles
 import "@/app/globals.css";  // shared base
 import type { Viewport } from 'next';
 import { Great_Vibes } from 'next/font/google'
+import Link from "next/link";
 
 const greatVibes = Great_Vibes({
   subsets: ['latin'],
@@ -20,7 +21,7 @@ export default function ProLayout({ children }: { children: React.ReactNode }) {
       <header className="border-b border-white/10 bg-black/30 backdrop-blur-xl">
         <div className="container mx-auto flex items-center justify-between py-3">
           <div className="font-medium">. Daniel Muljono</div>
-          <a href="/" className="underline">Back to Personal</a>
+          <Link href="/" className="underline">Back to Personal</Link>
         </div>
       </header>
       <main>{children}</main>
