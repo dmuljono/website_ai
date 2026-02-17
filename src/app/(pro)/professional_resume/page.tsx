@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ProjectCardSection from "./ProjectCardSection";
 
 export function generateViewport() {
@@ -49,11 +50,15 @@ function NotifCard({
           className="h-16 w-16 shrink-0 rounded-[20px] overflow-hidden flex items-center justify-center shadow-[0_8px_24px_rgba(0,0,0,0.5)]"
           style={{ background: iconBg }}
         >
-          <img
+          <Image
             src={iconSrc}
             alt={iconAlt ?? `${app} icon`}
-            className="h-full w-full object-cover"
+            width={64}
+            height={64}
+            draggable={false}
+            className="object-cover select-none pointer-events-none"
           />
+
         </div>
 
         {/* Content */}

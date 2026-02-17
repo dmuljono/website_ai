@@ -5,6 +5,8 @@ import { createInitialState, stepUpdate } from "./engine/game";
 import { drawFrame } from "./engine/draw";
 import { loadThemeImages } from "./engine/assets";
 import THEME from "./engine/theme";
+import Image from "next/image";
+
 
 export default function JourneyGame() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -183,19 +185,16 @@ export default function JourneyGame() {
             />
           </div>
 
-          <img
+          <Image
             src="/psp/psp_frame.png"
             alt="PSP frame"
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              pointerEvents: "none",
-              userSelect: "none",
-            }}
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 600px"
+            className="pointer-events-none select-none z-20"
+            style={{ objectFit: "cover" }}
           />
+
         </div>
 
         {showTouch && (
@@ -280,21 +279,19 @@ function TouchButton({
       onTouchStart={pressDown}
       onTouchEnd={pressUp}
     >
-      <img
+      <Image
         src={iconSrc}
         alt=""
+        fill
         draggable={false}
+        sizes="200px"
+        className="pointer-events-none select-none"
         style={{
-          position: "absolute",
-          inset: 0,
-          margin: "auto",
-          maxWidth: "101%",
-          maxHeight: "101%",
           objectFit: "contain",
-          pointerEvents: "none",
-          userSelect: "none",
+          padding: "6%",
         }}
       />
+
     </button>
   );
 }

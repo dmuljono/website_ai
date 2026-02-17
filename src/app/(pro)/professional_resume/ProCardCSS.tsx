@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { Great_Vibes } from "next/font/google";
+import Image from "next/image";
 
 const greatVibes = Great_Vibes({
   subsets: ["latin"],
@@ -99,20 +100,23 @@ export default function ProCardCSS() {
               className="absolute inset-0 overflow-hidden rounded-2xl"
               style={{ backfaceVisibility: "hidden", transform: "rotateY(0deg)" }}
             >
-              <img
+              <Image
                 src="/images/card-front2.png"
                 alt="Project front"
-                className="absolute top-1/2 left-1/2 object-cover select-none pointer-events-none"
+                width={1200}
+                height={1200}
                 draggable={false}
+                className="absolute top-1/2 left-1/2 select-none pointer-events-none"
                 style={{
-                  height: "100%",
                   width: "auto",
+                  height: "100%",
                   maxWidth: "none",
                   maxHeight: "none",
                   transformOrigin: "center",
                   transform: "translate(-50%, -50%) rotate(90deg) scale(1.6)",
                 }}
               />
+
 
               {/* keep your vignette */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
@@ -129,20 +133,23 @@ export default function ProCardCSS() {
                 transform: "rotateY(180deg)",
               }}
             >
-              <img
+              <Image
                 src="/images/card-back2.png"
                 alt="Project back"
-                className="absolute top-1/2 left-1/2 object-cover select-none pointer-events-none"
+                width={1200}
+                height={1200}
                 draggable={false}
+                className="absolute top-1/2 left-1/2 select-none pointer-events-none"
                 style={{
-                  height: "100%",
                   width: "auto",
+                  height: "100%",
                   maxWidth: "none",
                   maxHeight: "none",
                   transformOrigin: "center",
                   transform: "translate(-50%, -50%) rotate(90deg) scale(1.6)",
                 }}
               />
+
 
               <a
                 className={`${greatVibes.className} absolute bottom-10 left-1/2 -translate-x-1/2

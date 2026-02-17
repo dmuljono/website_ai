@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import TeleportGate from '@/components/TeleportGate';
 
+
 export default function Resume() {
   const [blurred, setBlurred] = useState(false);
 
@@ -93,7 +94,7 @@ export default function Resume() {
             className="inline-block relative w-[360px] h-[90px] mx-auto transition-transform duration-300 hover:scale-105 active:scale-95 "
           >
             {/* Oversized pixel button image for visual effect */}
-            <img
+            <Image
               src="/ui/download-button.png"
               alt="Download Resume Button"
               className="w-[500%] h-[500%] object-contain absolute top-7/20 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none animate-[pixel-glow_2s_infinite]"

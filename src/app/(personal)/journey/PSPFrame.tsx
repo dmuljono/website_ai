@@ -1,6 +1,7 @@
 // src/app/journey/PSPFrame.tsx
 "use client";
 import React from "react";
+import Image from "next/image";
 
 type ScreenRect = {
   left: number;   // px offset from the left of the PSP image
@@ -54,14 +55,13 @@ export default function PSPFrame({
       </div>
 
       {/* The PSP frame image on top */}
-      <img
+      <Image
         src={frameSrc}
         alt="PSP frame"
+        fill
+        priority
+        sizes="(max-width: 768px) 100vw, 600px"
         style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
           objectFit: "cover",
           pointerEvents: "none",
           userSelect: "none",
