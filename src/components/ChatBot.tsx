@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import DanielPhoneFrame from './DanielPhoneFrame';
 import { useChatStore, Message } from '@/context/useChatStore';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function ChatBot() {
   const [input, setInput] = useState('');
@@ -12,24 +14,18 @@ export default function ChatBot() {
 
   const messages = useChatStore((state) => state.messages);
   const addMessage = useChatStore((state) => state.addMessage);
+  const [statusText, setStatusText] = useState("Daniel-Bot is typing...");
 
-  // Typing blip sound loop
+
+  // Typing Hmm sound loop
   useEffect(() => {
-    let timeout: NodeJS.Timeout | null = null;
-
     if (isLoading) {
-      const playRandomBeep = () => {
-        new Audio('/sounds/iphone-blip.mp3').play();
-        const delay = 300 + Math.random() * 400;
-        timeout = setTimeout(playRandomBeep, delay);
-      };
-      playRandomBeep();
+      const audio = new Audio('/sounds/minecraft-villager-sound-effect.mp3');
+      audio.volume = 0.15; // 0–1
+      audio.play();
     }
-
-    return () => {
-      if (timeout) clearTimeout(timeout);
-    };
   }, [isLoading]);
+
 
   const playSound = (type: 'send' | 'receive') => {
     const file = type === 'send' ? 'message-send' : 'message-received';
@@ -49,30 +45,65 @@ export default function ChatBot() {
     playSound('send');
     setInput('');
     setIsLoading(true);
+    setStatusText("Starting…");
 
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: [...messages, newMessage] }),
       });
-      const data = await res.json();
 
-      if (data?.reply) {
-        addMessage({
-          role: 'assistant',
-          content: data.reply,
-          id: Date.now() + 1,
-        });
-        playSound('receive');
-      } else {
-        throw new Error('No reply from server');
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("No stream");
+
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+
+        const parts = buffer.split("\n\n");
+        buffer = parts.pop() ?? "";
+
+        for (const part of parts) {
+          const lines = part.split("\n");
+          const event =
+            lines.find((l) => l.startsWith("event:"))?.replace("event:", "").trim() ?? "";
+          const dataLine = lines.find((l) => l.startsWith("data:"));
+          if (!dataLine) continue;
+
+          const data = JSON.parse(dataLine.replace("data:", "").trim());
+
+          if (event === "status") {
+            setStatusText(data.text);
+          }
+
+          if (event === "final") {
+            addMessage({
+              role: "assistant",
+              content: data.text,
+              id: Date.now() + 1,
+            });
+            playSound("receive");
+            setIsLoading(false);
+          }
+
+          if (event === "error") {
+            throw new Error(data.text || "Stream error");
+          }
+        }
       }
     } catch (err) {
-      console.error('Chat error:', err);
+      console.error("Chat error:", err);
     } finally {
       setIsLoading(false);
     }
   };
+
 
   useEffect(() => {
     chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: 'smooth' });
@@ -100,7 +131,9 @@ export default function ChatBot() {
                 : 'bg-[#e2dcc5] text-black border-[#b7ad9b] shadow-[3px_3px_0px_rgba(0,0,0,0.4)]'}
             `}
           >
-            {msg.content}
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {msg.content}
+            </ReactMarkdown>
           </motion.div>
         ))}
 
@@ -110,7 +143,7 @@ export default function ChatBot() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <span className="animate-pulse">Daniel-Bot is typing...</span>
+            <span className="animate-pulse">{statusText}</span>
           </motion.div>
         )}
       </div>

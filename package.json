@@ -10,13 +10,22 @@
   },
   "dependencies": {
     "@fontsource/press-start-2p": "^5.2.5",
+    "@openai/agents": "^0.4.11",
+    "@openai/guardrails": "^0.2.1",
     "@react-three/drei": "^10.7.6",
     "@react-three/fiber": "^9.3.0",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.19",
     "framer-motion": "^12.6.4",
     "next": "15.3.0",
+    "openai": "^6.22.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-markdown": "^9.1.0",
+    "remark-gfm": "^4.0.1",
+    "tailwindcss-animate": "^1.0.7",
     "three": "^0.180.0",
+    "zod": "^4.3.6",
     "zustand": "^5.0.4"
   },
   "devDependencies": {
@@ -26,7 +35,7 @@
     "@types/react": "^19.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
-    "tailwindcss": "^4",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5.8.3"
   }
 }
