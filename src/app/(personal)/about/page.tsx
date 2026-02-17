@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import GlassyButton from '@/components/GlassyButton'
-
+import { useEffect, useMemo, useState } from 'react';
+import GlassyButton from '@/components/GlassyButton';
 
 export default function About() {
   const [crows, setCrows] = useState<number[]>([]);
@@ -11,11 +10,15 @@ export default function About() {
     const interval = setInterval(() => {
       setCrows((prev) => [...prev.slice(-5), Date.now()]);
     }, 3000);
+
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-cover bg-center" style={{ backgroundImage: "url('/bg/skyscraper-evening-pixel.png')" }}>
+    <div
+      className="relative min-h-screen overflow-hidden bg-cover bg-center"
+      style={{ backgroundImage: "url('/bg/skyscraper-evening-pixel.png')" }}
+    >
       {/* Flapping Crows Layer */}
       <div className="pointer-events-none absolute inset-0 z-20">
         {crows.map((id) => {
@@ -31,14 +34,17 @@ export default function About() {
           <h2 className="font-['Press_Start_2P'] text-xs text-black mb-4 tracking-tight">
             ▶ About Daniel
           </h2>
+
           <p className="font-['Press_Start_2P'] text-[10px] leading-relaxed mb-3">
-            I'm Daniel Muljono — a 25-year-old tech-driven professional working at DBS Bank through the Graduate Associate Programme.
+            I&apos;m Daniel Muljono — a 25-year-old tech-driven professional working at DBS Bank through the Graduate Associate Programme.
           </p>
+
           <p className="font-['Press_Start_2P'] text-[10px] leading-relaxed mb-3">
-            I’m passionate about AI, investing, luxury goods, anime, gaming, and golf.
+            I&apos;m passionate about AI, investing, luxury goods, anime, gaming, and golf.
           </p>
+
           <p className="font-['Press_Start_2P'] text-[10px] leading-relaxed">
-            This site’s chatbot reflects my personality — so feel free to ask it anything you'd ask me IRL.
+            This site&apos;s chatbot reflects my personality — so feel free to ask it anything you&apos;d ask me IRL.
           </p>
         </div>
 
@@ -52,14 +58,17 @@ export default function About() {
 
 function FlappingCrow({ speed, top }: { speed: number; top: number }) {
   const [frame, setFrame] = useState(0);
-  const frames = ['/ui/crow_up.png', '/ui/crow_mid.png', '/ui/crow_down.png'];
+
+  // useMemo so frames reference is stable
+  const frames = useMemo(() => ['/ui/crow_up.png', '/ui/crow_mid.png', '/ui/crow_down.png'], []);
 
   useEffect(() => {
     const flap = setInterval(() => {
       setFrame((prev) => (prev + 1) % frames.length);
     }, 150);
+
     return () => clearInterval(flap);
-  }, []);
+  }, [frames.length]);
 
   return (
     <img
