@@ -7,6 +7,16 @@ import { useChatStore, Message } from '@/context/useChatStore';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+function getOrCreateSessionId() {
+  const key = "dt_session_id";
+  let id = localStorage.getItem(key);
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem(key, id);
+  }
+  return id;
+}
+
 export default function ChatBot() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -14,8 +24,29 @@ export default function ChatBot() {
 
   const messages = useChatStore((state) => state.messages);
   const addMessage = useChatStore((state) => state.addMessage);
+  const setMessages = useChatStore((state) => state.setMessages); // ✅ ADD THIS
   const [statusText, setStatusText] = useState("Daniel-Bot is typing...");
 
+  // ✅ ADD THIS: Load history on mount
+  useEffect(() => {
+    const sessionId = getOrCreateSessionId();
+
+    (async () => {
+      try {
+        const res = await fetch(`/api/history?sessionId=${encodeURIComponent(sessionId)}`);
+        const data = await res.json();
+
+        const restored: Message[] = (data.history ?? []).flatMap((x: any, i: number) => [
+          { role: "user", content: x.user, id: Date.now() + i * 2 },
+          { role: "assistant", content: x.assistant, id: Date.now() + i * 2 + 1 },
+        ]);
+
+        if (restored.length) setMessages(restored);
+      } catch (e) {
+        console.error("Failed to load history:", e);
+      }
+    })();
+  }, [setMessages]);
 
   // Typing Hmm sound loop
   useEffect(() => {
@@ -26,7 +57,6 @@ export default function ChatBot() {
     }
   }, [isLoading]);
 
-
   const playSound = (type: 'send' | 'receive') => {
     const file = type === 'send' ? 'message-send' : 'message-received';
     new Audio(`/sounds/${file}.mp3`).play();
@@ -34,6 +64,8 @@ export default function ChatBot() {
 
   const handleSend = async () => {
     if (!input.trim()) return;
+
+    const sessionId = getOrCreateSessionId(); // ✅ ADD THIS
 
     const newMessage: Message = {
       role: 'user',
@@ -51,7 +83,8 @@ export default function ChatBot() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, newMessage] }),
+        // ✅ CHANGE THIS: include sessionId
+        body: JSON.stringify({ messages: [...messages, newMessage], sessionId }),
       });
 
       const reader = res.body?.getReader();
@@ -103,7 +136,6 @@ export default function ChatBot() {
       setIsLoading(false);
     }
   };
-
 
   useEffect(() => {
     chatRef.current?.scrollTo({ top: chatRef.current.scrollHeight, behavior: 'smooth' });
