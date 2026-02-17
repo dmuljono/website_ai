@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Great_Vibes } from "next/font/google";
 import Image from "next/image";
+import Link from "next/dist/client/link";
 
 const greatVibes = Great_Vibes({
   subsets: ["latin"],
@@ -151,14 +152,16 @@ export default function ProCardCSS() {
               />
 
 
-              <a
+              <Link
+                href="/professional"
                 className={`${greatVibes.className} absolute bottom-10 left-1/2 -translate-x-1/2
                 text-5xl bg-gradient-to-r from-white via-gray-300 to-white bg-[length:200%_auto]
                 bg-clip-text text-transparent animate-[shine_3s_linear_infinite]
                 drop-shadow-[0_0_10px_rgba(255,255,255,0.35)]`}
               >
-                {/* Daniel's Ace of Spades */}
-              </a>
+                {/* Daniel’s Ace of Spades */}
+              </Link>
+
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
 
