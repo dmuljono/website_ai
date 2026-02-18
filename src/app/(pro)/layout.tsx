@@ -21,7 +21,12 @@ export default function ProLayout({ children }: { children: React.ReactNode }) {
       <header className="border-b border-white/10 bg-black/30 backdrop-blur-xl">
         <div className="container mx-auto flex items-center justify-between py-3">
           <div className="font-medium">. Daniel Muljono</div>
-          <Link href="/" className="underline">Back to Personal</Link>
+          <Link href="/" className="ai-btn">
+            <span className="ai-btn-inner">
+              Back to Personal
+            </span>
+          </Link>
+
         </div>
       </header>
       <main>{children}</main>

@@ -130,3 +130,51 @@
   100% { transform: translate(-28%, -22%) scale(1.05); }
 }
 
+/* ===== Rotating AI Mode Border Button ===== */
+
+.ai-btn {
+  position: relative;
+  display: inline-block;
+  border-radius: 999px;
+  padding: 2px;
+  overflow: hidden;
+}
+
+.ai-btn::before {
+  content: "";
+  position: absolute;
+  inset: -200%;
+  background: conic-gradient(
+    from 0deg,
+    #4285F4,
+    #9B72FF,
+    #FF6EC7,
+    #00E5FF,
+    #4285F4
+  );
+  animation: aiRingRotate 4s linear infinite;
+}
+
+.ai-btn-inner {
+  position: relative;
+  display: block;
+  padding: 8px 18px; /* slightly smaller for header */
+  border-radius: 999px;
+  background: #111;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 1;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.ai-btn:hover .ai-btn-inner {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(130,150,255,.35);
+}
+
+@keyframes aiRingRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
