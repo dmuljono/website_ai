@@ -74,7 +74,7 @@ function FlappingCrow({ speed, top }: { speed: number; top: number }) {
 
   return (
     <div
-      className="absolute w-[48px]"
+      className="absolute w-12"
       style={{
         top: `${top}vh`,
         animation: `crow-fly ${speed}s linear forwards`,
